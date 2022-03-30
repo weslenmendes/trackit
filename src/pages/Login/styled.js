@@ -36,6 +36,16 @@ const Input = styled.input`
   border: 1px solid #d5d5d5;
   border-radius: 5px;
 
+  &:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px white inset;
+    -webkit-text-fill-color: blue !important;
+  }
+
+  &:disabled {
+    opacity: 0.8;
+    pointer-events: none;
+  }
+
   &::placeholder {
     color: #dbdbdb;
   }
@@ -51,10 +61,10 @@ const Button = styled.button`
   color: #fff;
   border: none;
   border-radius: 4.63636px;
-  transition: filter 0.3s ease;
+  transition: background-color 0.3s ease;
 
   &:hover {
-    filter: brightness(0.9);
+    background-color: #3788c4;
     cursor: pointer;
   }
 

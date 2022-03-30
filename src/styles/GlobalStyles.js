@@ -3,7 +3,8 @@ import reset from "styled-reset";
 
 const GlobalStyles = createGlobalStyle`
   ${reset};
-
+  
+  @import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
   @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100;300;400;500;700&display=swap');
 
   * {
