@@ -22,7 +22,6 @@ const Container = styled.section`
     font-size: 14px;
     line-height: 17px;
     display: block;
-    margin-top: 25px;
     text-align: center;
   }
 `;

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import { ThreeDots } from "react-loader-spinner";
+
+import { api } from "../../services/api";
 
 import { Container } from "./styled";
 
@@ -20,23 +20,22 @@ const initialState = {
 
 const Register = () => {
   const [userInfo, setUserInfo] = useState(initialState);
-  const [disabled, setDisabled] = useState(false);
+  const [status, setStatus] = useState({ isLoading: false, isDisabled: false });
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setDisabled(true);
+    setStatus({ ...status, isLoading: true, isDisabled: true });
 
-    const URL =
-      "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up";
-    const promise = axios.post(URL, { ...userInfo });
+    const URL = "auth/sign-up";
+    const promise = api.post(URL, { ...userInfo });
     promise.then(() => {
       setUserInfo(initialState);
-      setDisabled(false);
+      setStatus({ ...status, isLoading: false, isDisabled: false });
       navigate("/");
     });
     promise.catch((e) => {
-      setDisabled(false);
+      setStatus({ ...status, isLoading: false, isDisabled: false });
     });
   };
 
@@ -53,7 +52,7 @@ const Register = () => {
           name="email"
           placeholder="email"
           onChange={handleChange}
-          disabled={disabled}
+          disabled={status.isDisabled}
           required
         />
         <Input
@@ -61,7 +60,7 @@ const Register = () => {
           name="password"
           placeholder="senha"
           onChange={handleChange}
-          disabled={disabled}
+          disabled={status.isDisabled}
           required
         />
         <Input
@@ -69,7 +68,7 @@ const Register = () => {
           name="name"
           placeholder="nome"
           onChange={handleChange}
-          disabled={disabled}
+          disabled={status.isDisabled}
           required
         />
         <Input
@@ -77,19 +76,10 @@ const Register = () => {
           name="image"
           placeholder="foto"
           onChange={handleChange}
-          disabled={disabled}
+          disabled={status.isDisabled}
           required
         />
-        <Button
-          opacity={disabled ? 0.7 : 1}
-          pointer={disabled ? "none" : "auto"}
-        >
-          {disabled ? (
-            <ThreeDots color="#fff" height={13} width={50} />
-          ) : (
-            "Registrar"
-          )}
-        </Button>
+        <Button content="Cadastrar" status={status} />
       </form>
       <Link to="/">
         <span>Já tem uma conta? Faça login!</span>
