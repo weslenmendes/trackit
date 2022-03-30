@@ -1,10 +1,29 @@
 import styled from "styled-components";
+import { ThreeDots } from "react-loader-spinner";
 
-const Button = styled.button`
+const Button = ({ content, onClick, status }) => {
+  return (
+    <StyledButton
+      opacity={status.isLoading ? 0.7 : 1}
+      onClick={onClick}
+      disabled={status.isDisabled && !status.isLoading}
+    >
+      {status.isLoading ? (
+        <ThreeDots color="#fff" height={13} width={50} />
+      ) : (
+        content
+      )}
+    </StyledButton>
+  );
+};
+
+const StyledButton = styled.button`
   width: 100%;
   height: 45px;
   margin-top: 6px;
+  margin-bottom: 25px;
   background-color: #52b6ff;
+  font-family: "Lexend Deca", sans-serif;
   font-size: 20px;
   font-weight: 400;
   color: #fff;

@@ -22,7 +22,6 @@ const Container = styled.section`
     font-size: 14px;
     line-height: 17px;
     display: block;
-    margin-top: 25px;
     text-align: center;
   }
 `;
@@ -32,6 +31,7 @@ const Input = styled.input`
   height: 45px;
   padding: 0px 11px;
   margin-top: 5px;
+  font-family: "Lexend Deca", sans-serif;
   font-size: 20px;
   border: 1px solid #d5d5d5;
   border-radius: 5px;
@@ -55,6 +55,7 @@ const Button = styled.button`
   width: 100%;
   height: 45px;
   margin-top: 6px;
+  margin-bottom: 25px;
   background-color: #52b6ff;
   font-size: 20px;
   font-weight: 400;

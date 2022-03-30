@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ThreeDots } from "react-loader-spinner";
+
+import { api } from "../../services/api";
 
 import { Container, Input } from "./styled";
 import { Button } from "./../../components/Button";
@@ -11,42 +11,26 @@ import Logo from "../../assets/images/logo.png";
 const Login = () => {
   const [user, setUser] = useState({ email: "", password: "" });
   const [token, setToken] = useState("");
-  const [disabled, setDisabled] = useState(false);
+  const [status, setStatus] = useState({ isLoading: false, isDisabled: false });
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (token) {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      const URL =
-        "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
-      const promise = axios.get(URL, config);
-
-      promise.then((res) => {
-        setDisabled(false);
-        console.log(res.data);
-      });
-      promise.catch((e) => {
-        setDisabled(false);
-        console.log(e);
-      });
-    }
-  }, [token]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setDisabled(true);
-    const URL =
-      "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login";
-    const promise = axios.post(URL, { ...user });
+    setStatus({ ...status, isDisabled: true, isLoading: true });
 
-    promise.then((res) => {
-      setToken(res.data.token);
+    const URL = "auth/login";
+    const promise = api.post(URL, { ...user });
+
+    promise.then(({ data }) => {
+      setStatus({ ...status, isDisabled: false });
+      setToken(data.token);
+      navigate("/home", { state: { token } });
     });
-    promise.catch((e) => console.log(e));
+
+    promise.catch((e) => {
+      setStatus({ ...status, isDisabled: false });
+      alert(e);
+    });
   };
 
   const handleChange = (e) => {
@@ -59,27 +43,21 @@ const Login = () => {
       <form onSubmit={handleSubmit} autoComplete="off">
         <Input
           type="email"
-          placeholder="email"
           name="email"
+          placeholder="email"
           onChange={handleChange}
-          disabled={disabled}
+          disabled={status.isDisabled}
           required
         />
         <Input
           type="password"
-          placeholder="senha"
           name="password"
+          placeholder="senha"
           onChange={handleChange}
-          disabled={disabled}
+          disabled={status.isDisabled}
           required
         />
-        <Button opacity={disabled ? 0.7 : 1}>
-          {disabled ? (
-            <ThreeDots color="#fff" height={13} width={50} />
-          ) : (
-            "Entrar"
-          )}
-        </Button>
+        <Button status={status} content="Entrar" />
       </form>
       <Link to="/register">
         <span>Não tem uma conta? Cadastre-se!</span>
