@@ -1,11 +1,17 @@
+import { useContext } from "react";
 import styled from "styled-components";
+
+import { UserContext } from "../../contexts/UserContext";
+
 import { ReactComponent as SmallLogo } from "../../assets/small-logo.svg";
 
-const Header = ({ avatar }) => {
+const Header = () => {
+  const { user } = useContext(UserContext);
+
   return (
     <HeaderStyled>
       <SmallLogo title="TrackIt" height="49px" />
-      <img src={avatar || ""} alt="" />
+      <img src={user.image} alt={user.name} />
     </HeaderStyled>
   );
 };

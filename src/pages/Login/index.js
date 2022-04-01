@@ -1,28 +1,49 @@
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { api } from "../../services/api";
 
+import { UserContext } from "../../contexts/UserContext";
+
 import { Container, Input } from "./styled";
 import { Button } from "./../../components/Button";
+
+import {
+  getLocalStorage as getItem,
+  setLocalStorage as setItem,
+} from "../../utils";
 
 import Logo from "../../assets/images/logo.png";
 
 const Login = () => {
-  const [user, setUser] = useState({ email: "", password: "" });
+  const [form, setForm] = useState({ email: "", password: "" });
   const [status, setStatus] = useState({ isLoading: false, isDisabled: false });
+  const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (getItem("user")) {
+      setUser(getItem("user"));
+      navigate("/habits", { replace: true });
+    }
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setStatus({ ...status, isDisabled: true, isLoading: true });
 
     const URL = "auth/login";
-    const promise = api.post(URL, { ...user });
+    const promise = api.post(URL, { ...form });
 
     promise.then(({ data }) => {
       setStatus({ ...status, isDisabled: false });
-      navigate("/habits", { state: { data } });
+      setItem("user", {
+        token: data.token,
+        image: data.image,
+        name: data.name,
+      });
+      setUser(data);
+      navigate("/habits", { replace: true });
     });
 
     promise.catch((e) => {
@@ -32,7 +53,7 @@ const Login = () => {
   };
 
   const handleChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   return (

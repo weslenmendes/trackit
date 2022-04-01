@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { UserContext } from "./../../contexts/UserContext";
 
 import { Container } from "./styled";
 
@@ -13,23 +13,18 @@ import { HabitCard } from "../../components/HabitCard";
 
 const Habits = () => {
   const [data, setData] = useState([]);
-  const [userInfo, setUserInfo] = useState({});
   const [show, setShow] = useState(false);
-  const { state } = useLocation();
+
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
-    if (state.data) {
-      getHabits();
-    }
-  }, [state]);
+    getHabits();
+  }, []);
 
   const getHabits = () => {
-    const { token } = state.data;
-    setUserInfo({ ...state.data });
-
     const config = {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${user.token}`,
       },
     };
     const URL = "habits";
@@ -48,7 +43,7 @@ const Habits = () => {
     if (habit) {
       const config = {
         headers: {
-          Authorization: `Bearer ${state.data.token}`,
+          Authorization: `Bearer ${user.token}`,
         },
       };
       const URL = "habits";
@@ -66,11 +61,9 @@ const Habits = () => {
 
   const deleteHabit = (id) => {
     if (id) {
-      const { token } = state.data;
-
       const config = {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${user.token}`,
         },
       };
 
@@ -85,7 +78,7 @@ const Habits = () => {
 
   return (
     <>
-      <Header avatar={"jdjd"} />
+      <Header />
       <Container>
         <div>
           <h2>Meus hábitos</h2>
