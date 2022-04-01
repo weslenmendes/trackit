@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 import { UserContext } from "../../contexts/UserContext";
@@ -7,12 +8,15 @@ import { ReactComponent as SmallLogo } from "../../assets/small-logo.svg";
 
 const Header = () => {
   const { user } = useContext(UserContext);
+  const { pathname } = useLocation();
 
-  return (
+  return !(pathname === "/" || pathname === "/register") ? (
     <HeaderStyled>
       <SmallLogo title="TrackIt" height="49px" />
       <img src={user.image} alt={user.name} />
     </HeaderStyled>
+  ) : (
+    <></>
   );
 };
 

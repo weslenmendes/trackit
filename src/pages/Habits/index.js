@@ -5,9 +5,7 @@ import { Container } from "./styled";
 
 import { api } from "../../services/api";
 
-import { Header } from "../../components/Header";
 import { Button } from "../../components/Button";
-import { Footer } from "../../components/Footer";
 import { CreateHabit } from "../../components/CreateHabit";
 import { HabitCard } from "../../components/HabitCard";
 
@@ -18,8 +16,22 @@ const Habits = () => {
   const { user } = useContext(UserContext);
 
   useEffect(() => {
-    getHabits();
-  }, []);
+    (async function () {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+      const URL = "habits";
+
+      try {
+        const { data } = await api.get(URL, config);
+        setData(data);
+      } catch (error) {
+        alert(error);
+      }
+    })();
+  }, [user]);
 
   const getHabits = () => {
     const config = {
@@ -77,37 +89,33 @@ const Habits = () => {
   };
 
   return (
-    <>
-      <Header />
-      <Container>
-        <div>
-          <h2>Meus hábitos</h2>
-          <Button
-            content="+"
-            status={{ isLoading: false, isDisabled: false }}
-            onClick={handleClick}
+    <Container>
+      <div>
+        <h2>Meus hábitos</h2>
+        <Button
+          content="+"
+          status={{ isLoading: false, isDisabled: false }}
+          onClick={handleClick}
+        />
+      </div>
+      {show && <CreateHabit changeShow={setShow} addHabit={addHabit} />}
+      {data.length === 0 ? (
+        <p>
+          Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para
+          começar a trackear!
+        </p>
+      ) : (
+        data.map(({ id, name, days }) => (
+          <HabitCard
+            key={id}
+            id={id}
+            name={name}
+            days={days}
+            deleteHabit={() => deleteHabit(id)}
           />
-        </div>
-        {show && <CreateHabit changeShow={setShow} addHabit={addHabit} />}
-        {data.length === 0 ? (
-          <p>
-            Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para
-            começar a trackear!
-          </p>
-        ) : (
-          data.map(({ id, name, days }) => (
-            <HabitCard
-              key={id}
-              id={id}
-              name={name}
-              days={days}
-              deleteHabit={() => deleteHabit(id)}
-            />
-          ))
-        )}
-      </Container>
-      <Footer />
-    </>
+        ))
+      )}
+    </Container>
   );
 };
 

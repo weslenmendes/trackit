@@ -1,20 +1,36 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import { ReactComponent as SpinnerSVG } from "../../assets/spinner.svg";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
-const Footer = () => {
+const Menu = () => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
-  return (
+  return !(pathname === "/" || pathname === "/register") ? (
     <StyledFooter>
       <h2 onClick={() => navigate("/habits")}>Hábitos</h2>
-      <div className="circle">
-        <SpinnerSVG fill="#fff" title="" className="circle-intern" />
-        Hoje
+      <div className="circle" onClick={() => navigate("/today")}>
+        <div className="progress-bar">
+          <CircularProgressbar
+            value={66}
+            text="Hoje"
+            strokeWidth={8}
+            backgroundPadding={7}
+            styles={buildStyles({
+              textSize: "22px",
+              textColor: "#fff",
+              pathColor: "#fff",
+              trailColor: "transparent",
+            })}
+          />
+        </div>
       </div>
       <h2 onClick={() => navigate("/history")}>Histórico</h2>
     </StyledFooter>
+  ) : (
+    <></>
   );
 };
 
@@ -52,6 +68,7 @@ const StyledFooter = styled.footer`
     background-color: #52b6ff;
     font-size: 18px;
     color: #fff;
+    cursor: pointer;
 
     position: absolute;
     left: 50%;
@@ -63,15 +80,16 @@ const StyledFooter = styled.footer`
     justify-content: center;
     align-items: center;
 
-    .circle-intern {
-      width: 75px;
-      height: 75px;
+    .progress-bar {
+      font-family: "Lexend Deca", sans-serif;
+      width: 77px;
+      height: 77px;
 
       position: absolute;
-      top: 8px;
-      left: 13px;
+      top: 7px;
+      left: 7px;
     }
   }
 `;
 
-export { Footer };
+export { Menu };
