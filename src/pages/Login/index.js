@@ -10,7 +10,6 @@ import Logo from "../../assets/images/logo.png";
 
 const Login = () => {
   const [user, setUser] = useState({ email: "", password: "" });
-  const [token, setToken] = useState("");
   const [status, setStatus] = useState({ isLoading: false, isDisabled: false });
   const navigate = useNavigate();
 
@@ -23,8 +22,7 @@ const Login = () => {
 
     promise.then(({ data }) => {
       setStatus({ ...status, isDisabled: false });
-      setToken(data.token);
-      navigate("/home", { state: { token } });
+      navigate("/habits", { state: { data } });
     });
 
     promise.catch((e) => {

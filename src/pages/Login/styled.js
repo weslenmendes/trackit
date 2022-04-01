@@ -36,11 +36,6 @@ const Input = styled.input`
   border: 1px solid #d5d5d5;
   border-radius: 5px;
 
-  &:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0 30px white inset;
-    -webkit-text-fill-color: blue !important;
-  }
-
   &:disabled {
     opacity: 0.8;
     pointer-events: none;
