@@ -1,19 +1,28 @@
-import { useContext } from "react";
-import { useLocation } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import { UserContext } from "../../contexts/UserContext";
 
 import { ReactComponent as SmallLogo } from "../../assets/small-logo.svg";
 
+import { getLocalStorage } from "../../utils";
+
 const Header = () => {
   const { user } = useContext(UserContext);
   const { pathname } = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!getLocalStorage("user")) {
+      navigate("/", { replace: true });
+    }
+  }, [navigate]);
 
   return !(pathname === "/" || pathname === "/register") ? (
     <HeaderStyled>
       <SmallLogo title="TrackIt" height="49px" />
-      <img src={user.image} alt={user.name} />
+      {user && <img src={user.image} alt={user.name} />}
     </HeaderStyled>
   ) : (
     <></>
