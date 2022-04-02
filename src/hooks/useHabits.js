@@ -1,4 +1,5 @@
 import { useContext, useEffect } from "react";
+
 import { UserContext } from "../contexts/UserContext";
 
 import { api } from "../services/api";
@@ -10,6 +11,8 @@ const useHabits = () => {
     if (user && setHabitsInfo) {
       getTodayHabits();
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   function getTodayHabits() {
