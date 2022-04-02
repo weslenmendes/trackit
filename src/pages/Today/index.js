@@ -33,7 +33,7 @@ const Today = () => {
         }
       })();
     }
-  }, [user]);
+  }, [user, updateHabits]);
 
   const getTodayHabits = () => {
     const URL = "habits/today";
