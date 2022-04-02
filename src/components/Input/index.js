@@ -64,39 +64,39 @@ const StyledInput = styled.input`
   }
 `;
 
-const Container = styled.div`
-  width: 100%;
-  height: 45px;
-  margin-top: 5px;
-  font-family: "Lexend Deca", sans-serif;
-  font-size: 20px;
-  border: ${(props) => (props.focus ? "1px solid #d5d5d5" : "2px solid #333")};
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
+// const Container = styled.div`
+//   width: 100%;
+//   height: 45px;
+//   margin-top: 5px;
+//   font-family: "Lexend Deca", sans-serif;
+//   font-size: 20px;
+//   border: ${(props) => (props.focus ? "1px solid #d5d5d5" : "2px solid #333")};
+//   border-radius: 5px;
+//   display: flex;
+//   align-items: center;
 
-  input {
-    margin-left: 2px;
-    padding-left: 9px;
-    padding-right: 11px;
-    width: 87%;
-    height: 97%;
-    border: none;
-    font-size: 20px;
-    font-family: "Lexend Deca", sans-serif;
-    outline: none;
+//   input {
+//     margin-left: 2px;
+//     padding-left: 9px;
+//     padding-right: 11px;
+//     width: 87%;
+//     height: 97%;
+//     border: none;
+//     font-size: 20px;
+//     font-family: "Lexend Deca", sans-serif;
+//     outline: none;
 
-    &::placeholder {
-      color: #dbdbdb;
-    }
-  }
+//     &::placeholder {
+//       color: #dbdbdb;
+//     }
+//   }
 
-  .icon {
-    margin-left: 15px;
-    margin-right: 11px;
-    height: 100%;
-    cursor: pointer;
-  }
-`;
+//   .icon {
+//     margin-left: 15px;
+//     margin-right: 11px;
+//     height: 100%;
+//     cursor: pointer;
+//   }
+// `;
 
 export { Input };
