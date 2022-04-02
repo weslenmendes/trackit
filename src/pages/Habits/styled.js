@@ -1,10 +1,13 @@
 import styled from "styled-components";
 
 const Container = styled.section`
-  padding: 28px 18px;
+  min-width: 350px;
   height: 100vh;
-  margin: 0 auto;
-  margin-top: 70px;
+  overflow-y: auto;
+  padding: 103px 18px;
+  padding-bottom: 120px;
+  padding-bottom: 100px;
+  background-color: #f2f2f2;
   font-family: "Lexend Deca", sans-serif;
 
   display: flex;

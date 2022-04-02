@@ -18,6 +18,8 @@ const Habits = () => {
   const { user } = useContext(UserContext);
 
   useEffect(() => {
+    let isCancelled = false;
+
     (async function () {
       const config = {
         headers: {
@@ -28,13 +30,19 @@ const Habits = () => {
 
       try {
         const { data } = await api.get(URL, config);
-        setData(data);
-        updateHabits();
+        if (!isCancelled) {
+          setData(data);
+          updateHabits();
+        }
       } catch (error) {
         alert(error);
       }
     })();
-  }, [user]);
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [user, updateHabits]);
 
   const getHabits = () => {
     const config = {
