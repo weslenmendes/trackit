@@ -4,6 +4,7 @@ import { Login } from "./../pages/Login";
 import { Register } from "./../pages/Register";
 import { Habits } from "./../pages/Habits";
 import { Today } from "./../pages/Today";
+import { History } from "../pages/History";
 
 import { Header } from "./../components/Header";
 import { Menu } from "./../components/Menu";
@@ -17,6 +18,7 @@ const AppRoutes = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/habits" element={<Habits />} />
         <Route path="/today" element={<Today />} />
+        <Route path="/history" element={<History />} />
       </Routes>
       <Menu />
     </BrowserRouter>
