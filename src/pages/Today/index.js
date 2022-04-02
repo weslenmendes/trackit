@@ -7,10 +7,12 @@ import { getToday } from "./../../utils/day.mjs";
 
 import { UserContext } from "../../contexts/UserContext";
 import { TodayHabitCard } from "../../components/TodayHabitCard";
+import { useHabits } from "../../hooks/useHabits";
 
 const Today = () => {
   const [data, setData] = useState([]);
   const { user } = useContext(UserContext);
+  const { updateHabits } = useHabits();
 
   useEffect(() => {
     if (user) {
@@ -25,6 +27,7 @@ const Today = () => {
         try {
           const { data } = await api.get(URL, config);
           setData(data);
+          updateHabits(data);
         } catch (e) {
           alert(e);
         }
@@ -41,7 +44,12 @@ const Today = () => {
     };
 
     const response = api.get(URL, config);
-    response.then(({ data }) => setData(data)).catch((e) => alert(e));
+    response
+      .then(({ data }) => {
+        setData(data);
+        updateHabits(data);
+      })
+      .catch((e) => alert(e));
   };
 
   const checkHabit = (id) => {

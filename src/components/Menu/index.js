@@ -1,10 +1,14 @@
+import { useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
+import { UserContext } from "../../contexts/UserContext";
+
 const Menu = () => {
+  const { habitsInfo } = useContext(UserContext);
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -14,7 +18,7 @@ const Menu = () => {
       <div className="circle" onClick={() => navigate("/today")}>
         <div className="progress-bar">
           <CircularProgressbar
-            value={66}
+            value={habitsInfo.percentage}
             text="Hoje"
             strokeWidth={8}
             backgroundPadding={7}

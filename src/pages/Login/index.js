@@ -26,7 +26,7 @@ const Login = () => {
       setUser(getItem("user"));
       navigate("/habits", { replace: true });
     }
-  }, []);
+  }, [navigate, setUser]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

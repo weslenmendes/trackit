@@ -8,10 +8,12 @@ import { api } from "../../services/api";
 import { Button } from "../../components/Button";
 import { CreateHabit } from "../../components/CreateHabit";
 import { HabitCard } from "../../components/HabitCard";
+import { useHabits } from "../../hooks/useHabits";
 
 const Habits = () => {
   const [data, setData] = useState([]);
   const [show, setShow] = useState(false);
+  const { updateHabits } = useHabits();
 
   const { user } = useContext(UserContext);
 
@@ -27,6 +29,7 @@ const Habits = () => {
       try {
         const { data } = await api.get(URL, config);
         setData(data);
+        updateHabits();
       } catch (error) {
         alert(error);
       }
@@ -43,7 +46,10 @@ const Habits = () => {
 
     const promise = api.get(URL, config);
 
-    promise.then(({ data }) => setData(data));
+    promise.then(({ data }) => {
+      updateHabits();
+      setData(data);
+    });
     promise.catch((e) => alert(e));
   };
 
