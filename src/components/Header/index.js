@@ -14,10 +14,14 @@ const Header = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!getLocalStorage("user")) {
+    let isInitialRoutes = pathname === "/" || pathname === "/register";
+
+    if (getLocalStorage("user")) {
+      navigate("/today", { replace: true });
+    } else if (!isInitialRoutes && !getLocalStorage("user")) {
       navigate("/", { replace: true });
     }
-  }, [navigate]);
+  }, [navigate, pathname]);
 
   return !(pathname === "/" || pathname === "/register") ? (
     <HeaderStyled>
