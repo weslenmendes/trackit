@@ -8,10 +8,15 @@ const useHabits = () => {
   const { user, habitsInfo, setHabitsInfo } = useContext(UserContext);
 
   useEffect(() => {
-    if (user && setHabitsInfo) {
+    let isCancelled = false;
+
+    if (user && setHabitsInfo && !isCancelled) {
       getTodayHabits();
     }
 
+    return () => {
+      isCancelled = true;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
