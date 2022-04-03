@@ -24,7 +24,7 @@ const Login = () => {
   useEffect(() => {
     if (getItem("user")) {
       setUser(getItem("user"));
-      navigate("/habits", { replace: true });
+      navigate("/today", { replace: true });
     }
   }, [navigate, setUser]);
 
@@ -43,7 +43,7 @@ const Login = () => {
         name: data.name,
       });
       setUser(data);
-      navigate("/habits", { replace: true });
+      navigate("/today", { replace: true });
     });
 
     promise.catch((e) => {
