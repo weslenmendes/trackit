@@ -16,9 +16,7 @@ const Header = () => {
   useEffect(() => {
     let isInitialRoutes = pathname === "/" || pathname === "/register";
 
-    if (getLocalStorage("user")) {
-      navigate("/today", { replace: true });
-    } else if (!isInitialRoutes && !getLocalStorage("user")) {
+    if (!isInitialRoutes && !getLocalStorage("user")) {
       navigate("/", { replace: true });
     }
   }, [navigate, pathname]);
