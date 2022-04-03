@@ -68,6 +68,8 @@ const StyledHabitCard = styled.article`
 
   p {
     font-size: 20px;
+    word-break: break-word;
+    width: 87%;
   }
 
   ul {

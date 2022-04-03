@@ -93,7 +93,7 @@ const Habits = () => {
         promise.then(({ data }) => {
           updateHabits();
           setData(data);
-          setHabit(initialState);
+          setHabit(initialStateHabit);
         });
         promise.catch((e) => alert(e));
         setShow(false);
