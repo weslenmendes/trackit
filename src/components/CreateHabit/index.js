@@ -2,13 +2,7 @@ import { useState } from "react";
 import { CreateHabitStyled } from "./styled";
 import { ThreeDots } from "react-loader-spinner";
 
-const initialState = {
-  name: "",
-  days: [],
-};
-
-const CreateHabit = ({ changeShow, addHabit }) => {
-  const [habit, setHabit] = useState(initialState);
+const CreateHabit = ({ habit, setHabit, changeShow, addHabit }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {

@@ -11,10 +11,12 @@ import { HabitCard } from "../../components/HabitCard";
 import { Loading } from "../../components/Loading";
 import { useHabits } from "../../hooks/useHabits";
 
+const initialStateHabit = { name: "", days: [] };
+
 const Habits = () => {
   const [data, setData] = useState([]);
+  const [habit, setHabit] = useState(initialStateHabit);
   const [show, setShow] = useState(false);
-  const [status, setStatus] = useState({ isLoading: false, isDisabled: false });
   const [isLoading, setIsLoading] = useState(true);
   const { updateHabits } = useHabits();
 
@@ -91,6 +93,7 @@ const Habits = () => {
         promise.then(({ data }) => {
           updateHabits();
           setData(data);
+          setHabit(initialState);
         });
         promise.catch((e) => alert(e));
         setShow(false);
@@ -143,7 +146,14 @@ const Habits = () => {
           onClick={handleClick}
         />
       </div>
-      {show && <CreateHabit changeShow={setShow} addHabit={addHabit} />}
+      {show && (
+        <CreateHabit
+          habit={habit}
+          setHabit={setHabit}
+          changeShow={setShow}
+          addHabit={addHabit}
+        />
+      )}
       {isLoading && <Loading />}
       {data.length === 0 && !isLoading ? (
         <p>
