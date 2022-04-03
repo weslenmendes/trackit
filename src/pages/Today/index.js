@@ -1,20 +1,26 @@
 import { useState, useEffect, useContext } from "react";
-import styled from "styled-components";
+
+import { TodayHabitCard } from "../../components/TodayHabitCard";
+import { Loading } from "../../components/Loading";
+
+import { Container, Title, SubTitle, HabitsContainer } from "./styled";
+
+import { UserContext } from "../../contexts/UserContext";
+import { useHabits } from "../../hooks/useHabits";
 
 import { api } from "./../../services/api";
 
 import { getToday } from "./../../utils/day.mjs";
 
-import { UserContext } from "../../contexts/UserContext";
-import { TodayHabitCard } from "../../components/TodayHabitCard";
-import { useHabits } from "../../hooks/useHabits";
-
 const Today = () => {
   const [data, setData] = useState([]);
-  const { user } = useContext(UserContext);
+  const [isLoading, setIsLoading] = useState(true);
+  const { user, habitsInfo } = useContext(UserContext);
   const { updateHabits } = useHabits();
 
   useEffect(() => {
+    let isCancelled = false;
+
     if (user) {
       (async function () {
         const URL = "habits/today";
@@ -26,14 +32,24 @@ const Today = () => {
 
         try {
           const { data } = await api.get(URL, config);
-          setData(data);
-          updateHabits(data);
+          setIsLoading(false);
+          if (!isCancelled) {
+            setData(data);
+            updateHabits(data);
+          }
         } catch (e) {
+          setIsLoading(false);
           alert(e);
         }
       })();
     }
-  }, [user, updateHabits]);
+
+    return () => {
+      isCancelled = true;
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   const getTodayHabits = () => {
     const URL = "habits/today";
@@ -82,12 +98,26 @@ const Today = () => {
     }
   };
 
+  const makeSubtitle = () => {
+    const { percentage } = habitsInfo;
+
+    if (data.length && percentage > 0) {
+      return (
+        <SubTitle className="highlighted">
+          {percentage}% dos hábitos concluídos
+        </SubTitle>
+      );
+    } else {
+      return <SubTitle>Nenhum hábito concluído ainda</SubTitle>;
+    }
+  };
+
   return (
     <Container>
       <Title>{getToday()}</Title>
-      <SubTitle>Nenhum hábito concluído ainda</SubTitle>
-      {data.length === 0 && <h2>Carregando</h2>}
-      {data.length > 0 && (
+      {makeSubtitle()}
+      {isLoading && <Loading />}
+      {data.length > 0 && !isLoading && (
         <HabitsContainer>
           {data.map((habit) => (
             <TodayHabitCard
@@ -102,30 +132,5 @@ const Today = () => {
     </Container>
   );
 };
-
-const Container = styled.section`
-  min-width: 350px;
-  height: calc(100vh - 75px);
-  margin-top: 75px;
-  padding: 28px 18px 0px;
-  background-color: #f2f2f2;
-`;
-
-const Title = styled.h2`
-  font-size: 23px;
-  line-height: 29px;
-  font-weight: 400px;
-  color: #126ba5;
-`;
-
-const SubTitle = styled.p`
-  font-size: 18px;
-  color: #bababa;
-  line-height: 22px;
-`;
-
-const HabitsContainer = styled.main`
-  margin-top: 28px;
-`;
 
 export { Today };

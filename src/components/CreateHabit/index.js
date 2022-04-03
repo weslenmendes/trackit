@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { CreateHabitStyled } from "./styled";
+import { ThreeDots } from "react-loader-spinner";
 
 const initialState = {
   name: "",
@@ -8,6 +9,7 @@ const initialState = {
 
 const CreateHabit = ({ changeShow, addHabit }) => {
   const [habit, setHabit] = useState(initialState);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     setHabit({ ...habit, name: e.target.value });
@@ -51,7 +53,7 @@ const CreateHabit = ({ changeShow, addHabit }) => {
   const days = createDays();
 
   return (
-    <CreateHabitStyled>
+    <CreateHabitStyled className={isLoading && "disabled"}>
       <input
         type="text"
         name="name"
@@ -66,8 +68,18 @@ const CreateHabit = ({ changeShow, addHabit }) => {
         <button className="text-btn" onClick={() => changeShow(false)}>
           Cancelar
         </button>
-        <button className="btn" onClick={() => addHabit({ ...habit })}>
-          Salvar
+        <button
+          className="btn"
+          onClick={() => {
+            setIsLoading(true);
+            addHabit({ ...habit }, setIsLoading);
+          }}
+        >
+          {isLoading ? (
+            <ThreeDots color="#fff" height={13} width={50} />
+          ) : (
+            "Salvar"
+          )}
         </button>
       </div>
     </CreateHabitStyled>

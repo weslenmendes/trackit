@@ -4,17 +4,13 @@ const Container = styled.section`
   min-width: 350px;
   height: 100vh;
   overflow-y: auto;
-  padding: 103px 18px;
-  padding-bottom: 120px;
-  padding-bottom: 100px;
+  padding: 101px 18px 117px 18px;
   background-color: #f2f2f2;
   font-family: "Lexend Deca", sans-serif;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  background-color: #e5e5e5;
 
   img {
     padding-top: 68px;

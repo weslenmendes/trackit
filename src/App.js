@@ -16,7 +16,9 @@ export default function App() {
   const [habitsInfo, setHabitsInfo] = useState(initialState);
 
   return (
-    <UserContext.Provider value={{ user, setUser, habitsInfo, setHabitsInfo }}>
+    <UserContext.Provider
+      value={{ user, setUser, habitsInfo, setHabitsInfo, initialState }}
+    >
       <GlobalStyles />
       <Routes />
     </UserContext.Provider>

@@ -7,6 +7,33 @@ const CreateHabitStyled = styled.article`
   --btn-selected: #cfcfcf;
   --font-lexend: "Lexend Deca", sans-serif;
 
+  &.disabled {
+    pointer-events: none;
+
+    .btn,
+    .text-btn {
+      opacity: 0.7;
+    }
+
+    .selected {
+      background-color: #cfcfcf;
+      color: #fff;
+    }
+
+    btn {
+      color: #d4d4d4;
+      border-color: #d4d4d4;
+    }
+
+    input {
+      color: #afafaf;
+      background-color: #f2f2f2;
+      border-color: #d4d4d4;
+      opacity: 0.8;
+      pointer-events: none;
+    }
+  }
+
   max-width: 450px;
   width: 100%;
   padding: 18px;
