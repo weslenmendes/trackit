@@ -28,14 +28,13 @@ const Login = () => {
     }
   }, [navigate, setUser]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus({ ...status, isDisabled: true, isLoading: true });
 
-    const URL = "auth/login";
-    const promise = api.post(URL, { ...form });
-
-    promise.then(({ data }) => {
+    try {
+      const URL = "auth/login";
+      const { data } = await api.post(URL, { ...form });
       setStatus({ ...status, isDisabled: false });
       setItem("user", {
         token: data.token,
@@ -44,12 +43,12 @@ const Login = () => {
       });
       setUser(data);
       navigate("/today", { replace: true });
-    });
-
-    promise.catch((e) => {
+    } catch (error) {
       setStatus({ ...status, isDisabled: false });
-      alert(e);
-    });
+      alert(
+        "Ocorreu um erro no login, verifique se os campos estão preenchidos corretamente."
+      );
+    }
   };
 
   const handleChange = (e) => {

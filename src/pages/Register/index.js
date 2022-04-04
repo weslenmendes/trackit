@@ -23,20 +23,22 @@ const Register = () => {
   const [status, setStatus] = useState({ isLoading: false, isDisabled: false });
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus({ ...status, isLoading: true, isDisabled: true });
 
-    const URL = "auth/sign-up";
-    const promise = api.post(URL, { ...userInfo });
-    promise.then(() => {
+    try {
+      const URL = "auth/sign-up";
+      await api.post(URL, { ...userInfo });
       setUserInfo(initialState);
       setStatus({ ...status, isLoading: false, isDisabled: false });
       navigate("/");
-    });
-    promise.catch((e) => {
+    } catch (e) {
       setStatus({ ...status, isLoading: false, isDisabled: false });
-    });
+      alert(
+        "Ocorreu um erro no envio do cadastro, verifique os dados enviados."
+      );
+    }
   };
 
   const handleChange = (e) => {
